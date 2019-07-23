@@ -1,0 +1,10 @@
+1. .httaccess
+2. application/config/config.php
+3. system/language => create folder indonesia
+4. application/language => create folder indonesia
+5. core/MY_Config.php
+6. core/MY_Lang.php
+7. helper/MY_language_helper.php ====================================> coret
+8. third_party/MX/Lang.php => add code from MY_Lang.php
+9. application/config/routes.php
+10. application/config/autoload.php
