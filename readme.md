@@ -49,7 +49,7 @@ Use CodeIgniter [CodeIgniter Language Class](https://codeigniter.com/user_guide/
 2. Run `http://your_base_url.com/id/welcome/test` for Indonesian page
 
 # Notes
-1. You might need to translate some of CodeIgniter's language files in `system/language`. Example: if you're using the **Greeting Statement** library for Indonesian pages, translate system/language/english/greeting_lang.php to application/language/arabic/greeting_lang.php.
+1. You might need to translate some of CodeIgniter's language files in `system/language`. Example: if you're using the **Greeting Statement** library for Indonesian pages, translate system/language/english/greeting_lang.php to application/language/indonesia/greeting_lang.php.
 
 2. Get the current language:
    `$this->lang->lang()`
