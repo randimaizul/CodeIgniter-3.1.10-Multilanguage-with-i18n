@@ -1,70 +1,59 @@
-###################
-What is CodeIgniter
-###################
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+# What is does :
 
-*******************
-Release Information
-*******************
+Use CodeIgniter [CodeIgniter Language Class](https://codeigniter.com/user_guide/libraries/language.html) and i18n library from [Jérôme Jaglale](https://jeromejaglale.com/doc/php/codeigniter_i18n) through the language in the URI: 
+- http://your_base_url.com/en/welcome
+- http://your_base_url.com/id/welcome
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
+# Installation and configuration:
 
-**************************
-Changelog and New Features
-**************************
+1. Remove index.php in url codeigniter
+   - create **.httaccess**
+   - update **application/config/config.ph**
+2. Create new language in **system/language/indonesia (copy from english folder)**
+3. Create new language in **application/language**
+   - create **application/language/english/test_lang.php**
+   - create **application/language/indonesia/test_lang.php**
+4. Create **application/core/MY_Config.php**
+5. Create **application/core/MY_Lang.php**
+6. Create **application/third_party/Lang.php**
+   
+   **Lang.php** file same with **MY_Lang.php** but updated on **switch_uri** function :
+   ```
+   function switch_uri($lang,$uri_string_switch)
+   {
+      if ((!empty($uri_string_switch)) && (array_key_exists($lang, $this->languages))){
 
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+        if ($uri_segment = $this->get_uri_lang($uri_string_switch))
+        {
+          $uri_segment['parts'][0] = $lang;
+          $uri = implode('/',$uri_segment['parts']);
+        }
+        else
+        {
+          $uri = $lang.'/'.$this->uri;
+        }
+      }
 
-*******************
-Server Requirements
-*******************
+      return $uri;
+   }
+   ```
+   
+7. Update **application/config/routes.php**
+8. Update **application/config/autoload.php**
+9. Update **application/controllers/Welcome.php**
+10. Create **application/view/test_about.php**
 
-PHP version 5.6 or newer is recommended.
+# Test
+1. Run `http://your_base_url.com/en/welcome/test` for english page
+2. Run `http://your_base_url.com/id/welcome/test` for Indonesian page
 
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+# Notes
+1. You might need to translate some of CodeIgniter's language files in `system/language`. Example: if you're using the **Greeting Statement** library for Indonesian pages, translate system/language/english/greeting_lang.php to application/language/arabic/greeting_lang.php.
 
-************
-Installation
-************
-
-Please see the `installation section <https://codeigniter.com/user_guide/installation/index.html>`_
-of the CodeIgniter User Guide.
-
-*******
-License
-*******
-
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
-
-*********
-Resources
-*********
-
--  `User Guide <https://codeigniter.com/docs>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community Slack Channel <https://codeigniterchat.slack.com>`_
-
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
-
-***************
-Acknowledgement
-***************
-
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+2. Get the current language:
+   `$this->lang->lang()`
+   
+3. Switch to another language:
+   - `anchor($this->lang->switch_uri('id',$this->uri->uri_string()),'Muncul halaman indonesia');`
+   - `anchor($this->lang->switch_uri('en',$this->uri->uri_string()),'Show English Page');`
